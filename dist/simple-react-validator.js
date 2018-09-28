@@ -27,6 +27,7 @@ var SimpleReactValidator = function () {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
+    this.fieldMessageShown = {};
     this.rules = _extends({
       accepted: { message: 'The :attribute must be accepted.', rule: function rule(val) {
           return val === true;
@@ -124,6 +125,12 @@ var SimpleReactValidator = function () {
       this.messagesShown = true;
     }
   }, {
+    key: 'showMessage',
+    value: function showMessage(field) {
+      if (!field) return;
+      this.fieldMessageShown[field] = true;
+    }
+  }, {
     key: 'hideMessages',
     value: function hideMessages() {
       this.messagesShown = false;
@@ -176,7 +183,7 @@ var SimpleReactValidator = function () {
         // test if the value passes validation
         if (this.rules[rule].rule.call(this, value, options) === false) {
           this.fields[field] = false;
-          if (this.messagesShown) {
+          if (this.messagesShown || this.fieldMessageShown[field]) {
             message = customErrors[rule] || customErrors.default || this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
 
             this.errorMessages[field] = message;

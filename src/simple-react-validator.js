@@ -3,6 +3,7 @@ class SimpleReactValidator {
     this.fields = {};
     this.errorMessages = {};
     this.messagesShown = false;
+    this.fieldMessageShown = {};
     this.rules = {
       accepted       : {message: 'The :attribute must be accepted.',                              rule: (val) => val === true },
       alpha          : {message: 'The :attribute may only contain letters.',                      rule: (val) => this._testRegex(val,/^[A-Z]*$/i) },
@@ -36,6 +37,11 @@ class SimpleReactValidator {
 
   showMessages() {
     this.messagesShown = true;
+  }
+
+  showMessage(field) {
+    if(!field) return;
+    this.fieldMessageShown[field] = true;
   }
 
   hideMessages() {
@@ -77,7 +83,7 @@ class SimpleReactValidator {
       // test if the value passes validation
       if(this.rules[rule].rule.call(this, value, options) === false){
         this.fields[field] = false;
-        if(this.messagesShown){
+        if(this.messagesShown || this.fieldMessageShown[field]){
             message = customErrors[rule] ||
                       customErrors.default ||
                       this.rules[rule].message.replace(':attribute', field.replace(/_/g, ' '));
