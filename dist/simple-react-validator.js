@@ -131,6 +131,12 @@ var SimpleReactValidator = function () {
       this.fieldMessageShown[field] = true;
     }
   }, {
+    key: 'hideMessage',
+    value: function hideMessage(field) {
+      if (!field) return;
+      this.fieldMessageShown[field] = false;
+    }
+  }, {
     key: 'hideMessages',
     value: function hideMessages() {
       this.messagesShown = false;

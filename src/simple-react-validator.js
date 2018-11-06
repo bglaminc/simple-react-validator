@@ -44,6 +44,11 @@ class SimpleReactValidator {
     this.fieldMessageShown[field] = true;
   }
 
+  hideMessage(field) {
+    if(!field) return;
+    this.fieldMessageShown[field] = false;
+  }
+
   hideMessages() {
     this.messagesShown = false;
   }
